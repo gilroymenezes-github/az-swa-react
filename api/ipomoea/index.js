@@ -11,6 +11,6 @@ module.exports = async function (context, req) {
     //     body: responseMessage
     // };
     context.res.json({
-        text: "Hello, Azure Functions!"
+        text: "Hello, Azure Faas!"
     })
 }
