@@ -1,3 +1,10 @@
+const azure = require("azure-storage")
+
+//const connectionString = "DefaultEndpointsProtocol=https;AccountName=ipomoeastorage;AccountKey=lN2KJGBQhVnB2gWhzCIVvP8NiXjZtF/0IWh8Ls2T1+w3IAnJFRJ904CDVwb4HHUIkNzqCCBJSBMcaUrIomvO+w==;EndpointSuffix=core.windows.net"
+
+const tableService = azure.createTableService()//(connectionString)
+const tableName = "names"
+
 module.exports = async function (context, req) {
     // context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -10,7 +17,30 @@ module.exports = async function (context, req) {
     //     // status: 200, /* Defaults to 200 */
     //     body: responseMessage
     // };
-    context.res.json({
-        text: "Hello, Azure Faas!"
-    })
+
+    const getNames = async() => {
+        return new Promise((resolve, reject ) => {
+            var query = new azure.TableQuery().top(100)
+            tableService.queryEntities(tableName, query, null, function(error, result, response) {
+                if (!error) {
+                    resolve(response)
+                } else {
+                    reject(null)
+                }
+            })
+        })
+        
+    }
+
+    let names = await getNames();
+
+    if (!names) {
+        context.res.status(500).json({error: "not found"})
+    } else {
+        context.res.status(200).json(names)
+    }
+
+    // context.res.json({
+    //     text: "Hello, Azure Faas!"
+    // })
 }
