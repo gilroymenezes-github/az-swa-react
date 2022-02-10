@@ -1,7 +1,5 @@
 const azure = require("azure-storage")
 
-//const connectionString = "DefaultEndpointsProtocol=https;AccountName=ipomoeastorage;AccountKey=lN2KJGBQhVnB2gWhzCIVvP8NiXjZtF/0IWh8Ls2T1+w3IAnJFRJ904CDVwb4HHUIkNzqCCBJSBMcaUrIomvO+w==;EndpointSuffix=core.windows.net"
-
 const tableService = azure.createTableService()//(connectionString)
 const tableName = "names"
 
